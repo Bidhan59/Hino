@@ -12,11 +12,13 @@ module.exports.getDevices = function() {
       if (err) console.log("err>>>>>>>>>>>", err);
       var sqlQuery = "SELECT * FROM Devices";
       var req = new sql.Request();
-      req.query(sqlQuery).then(recordset => {
+      req.query(sqlQuery).then((result, err) => {
         console.log("came here");
         if (err) console.log(err);
-        else console.log("recordset>>>>>>>>>>>>>", recordset);
-        q.resolve(recordset);
+        else {
+          console.log("recordset>>>>>>>>>>>>>", result);
+          q.resolve(result.recordset);
+        }
         sql.close();
       });
     })
@@ -39,12 +41,12 @@ module.exports.postDevices = function(data) {
       if (err) console.log("err>>>>>>>>>>>", err);
       console.log("database connected");
       var req = new sql.Request();
-      req.query(sqlQ).then(recordset => {
-        console.log("came here");
+      req.query(sqlQ).then((result, err) => {
         if (err) console.log(err);
-        else console.log("recordset>>>>>>>>>>>>>", recordset);
-
-        q.resolve(recordset);
+        else {
+          console.log("recordset>>>>>>>>>>>>>", result);
+          q.resolve("Data Inserted");
+        }
         sql.close();
       });
     })
