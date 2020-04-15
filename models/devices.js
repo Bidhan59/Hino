@@ -6,13 +6,10 @@ const dbDetails = require(`${root}/config/secret.js`);
 const jsonSQL = require("json-sql")();
 module.exports.getDevices = function() {
   var q = Q.defer();
-  console.log("came to the models");
-  console.log("dbDetails>>>>>>>>>>", dbDetails);
   sql
     .connect(dbDetails)
-    .then(function(err) {
+    .then(function(config, err) {
       if (err) console.log("err>>>>>>>>>>>", err);
-      console.log("database connected");
       var sqlQuery = "SELECT * FROM Devices";
       var req = new sql.Request();
       req.query(sqlQuery).then(recordset => {
@@ -36,10 +33,10 @@ module.exports.postDevices = function(data) {
     table: "Devices",
     values: data
   });
-  console.log("sqlQ>>>>>>>>>>>>>", sqlQ);
   sql
     .connect(dbDetails)
-    .then(function(err) {
+    .then(function(config, err) {
+      if (err) console.log("err>>>>>>>>>>>", err);
       console.log("database connected");
       var req = new sql.Request();
       req.query(sqlQ).then(recordset => {
